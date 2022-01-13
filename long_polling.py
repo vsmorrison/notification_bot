@@ -2,30 +2,29 @@ import requests
 import telegram_bot
 
 
-def get_server_response(url, token, tg_token):
+def make_server_request(url, dvmn_token, timestamp):
     headers = {
-        'Authorization': f'Token {token}'
+        'Authorization': f'Token {dvmn_token}'
     }
+    payload = {
+        'timestamp': timestamp
+    }
+    response = requests.get(url, headers=headers, params=payload)
+    print(response.json())
+    return response.json()
+
+
+def get_server_response(url, dvmn_token, tg_token, chat_id, timestamp):
     while True:
         try:
-            response = requests.get(url, headers=headers)
-            print(response.json())
-            response = response.json()
+            response = make_server_request(url, dvmn_token, timestamp)
             if response['status'] == 'found':
-                telegram_bot.bot_sending_messages(tg_token, response)
+                telegram_bot.bot_sending_messages(tg_token, chat_id, response)
                 timestamp = response['last_attempt_timestamp']
-                payload = {
-                    'timestamp': timestamp
-                }
-                response = requests.get(url, headers=headers, params=payload)
             elif response['status'] == 'timeout':
                 timestamp = response['timestamp_to_request']
-                payload = {
-                    'timestamp': timestamp
-                }
-                response = requests.get(url, headers=headers, params=payload)
         except requests.exceptions.ReadTimeout:
-            response = requests.get(url, headers=headers)
+            response = make_server_request(url, dvmn_token, timestamp)
         except requests.exceptions.ConnectionError:
             pass
 
