@@ -1,19 +1,20 @@
 import telegram
 
 
-def bot_sending_messages(token, response):
+def bot_sending_messages(token, chat_id, response):
     bot = telegram.Bot(token=token)
-    bot.send_message(text='Работа вернулась с проверки', chat_id=210944506)
+    bot.send_message(text='Работа вернулась с проверки', chat_id=chat_id)
     for attempt in response['new_attempts']:
         if attempt['is_negative']:
             bot.send_message(
-                text=f'Работа {attempt["lesson_title"]} проверена, но есть '
+                text=f'Задача \"{attempt["lesson_title"]}\" проверена, но есть '
                      f'ошибки. Подробнее: {attempt["lesson_url"]}',
-                chat_id=210944506
+                chat_id=chat_id
             )
         else:
             bot.send_message(
-                text=f'Работа {attempt["lesson_title"]} проверена, все отлично!',
-                chat_id=210944506
+                text=f'Задача \"{attempt["lesson_title"]}\" '
+                     f'проверена, все отлично!',
+                chat_id=chat_id
             )
 
