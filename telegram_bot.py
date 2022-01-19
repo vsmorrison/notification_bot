@@ -1,20 +1,15 @@
-import telegram
+import textwrap
 
 
-def bot_sending_messages(token, chat_id, response):
-    bot = telegram.Bot(token=token)
+def bot_sending_messages(bot, chat_id, response):
     bot.send_message(text='Работа вернулась с проверки', chat_id=chat_id)
     for attempt in response['new_attempts']:
         if attempt['is_negative']:
-            bot.send_message(
-                text=f'Задача \"{attempt["lesson_title"]}\" проверена, но есть '
-                     f'ошибки. Подробнее: {attempt["lesson_url"]}',
-                chat_id=chat_id
-            )
+            text = f'''\
+            Задача "{attempt['lesson_title']}" проверена, но есть ошибки.
+            Подробнее: {attempt['lesson_url']}'''
+            bot.send_message(text=textwrap.dedent(text), chat_id=chat_id)
         else:
-            bot.send_message(
-                text=f'Задача \"{attempt["lesson_title"]}\" '
-                     f'проверена, все отлично!',
-                chat_id=chat_id
-            )
-
+            text = f'''\
+            Задача "{attempt['lesson_title']}" проверена, все отлично!'''
+            bot.send_message(text=textwrap.dedent(text), chat_id=chat_id)
