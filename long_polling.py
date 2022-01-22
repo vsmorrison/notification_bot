@@ -3,7 +3,7 @@ import telegram_bot
 import time
 
 
-def get_server_response(url, dvmn_token, timestamp):
+def get_students_reviews(url, dvmn_token, timestamp):
     headers = {
         'Authorization': f'Token {dvmn_token}'
     }
@@ -18,14 +18,14 @@ def make_server_polling(url, dvmn_token, chat_id, bot, timestamp):
     connection_error_counter = 0
     while True:
         try:
-            server_response = get_server_response(url, dvmn_token, timestamp)
-            if server_response['status'] == 'found':
+            students_reviews = get_students_reviews(url, dvmn_token, timestamp)
+            if students_reviews['status'] == 'found':
                 telegram_bot.bot_sending_messages(
-                    bot, chat_id, server_response
+                    bot, chat_id, students_reviews
                 )
-                timestamp = server_response['last_attempt_timestamp']
-            elif server_response['status'] == 'timeout':
-                timestamp = server_response['timestamp_to_request']
+                timestamp = students_reviews['last_attempt_timestamp']
+            elif students_reviews['status'] == 'timeout':
+                timestamp = students_reviews['timestamp_to_request']
         except requests.exceptions.ReadTimeout:
             pass
         except requests.exceptions.ConnectionError:
