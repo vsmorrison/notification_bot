@@ -6,9 +6,9 @@ import telegram
 
 def main():
     load_dotenv()
-    dvmn_token = os.getenv('dvmn_token')
-    tg_token = os.getenv('tg_token')
-    chat_id = os.getenv('chat_id')
+    dvmn_token = os.getenv('DVMN_TOKEN')
+    tg_token = os.getenv('TG_TOKEN')
+    chat_id = os.getenv('CHAT_ID')
     url = 'https://dvmn.org/api/long_polling/'
     bot = telegram.Bot(token=tg_token)
     long_polling.make_server_polling(
