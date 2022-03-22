@@ -51,6 +51,14 @@ chat_id=chat_id
 python3 main.py
 ```
 
+## Деплой c помощью Heroku
+
+1. Зарегистрируйтесь на [Heroku](http://www.heroku.com/)
+2. Привяжите свой репозиторий в Deployment Method
+3. Добавьте в репозиторий Procfile, [подробнее](https://devcenter.heroku.com/articles/procfile)
+4. Во вкладке Settings настройте Config Vars, перенесите туда значения из `.env`
+5. В Manual Deploy выберите ветку, которую вы хотите задеплоить и нажмите Deploy Branch
+
 ## Цель проекта
 
 Код написан в образовательных целях на онлайн-курсе для веб-разработчиков 
