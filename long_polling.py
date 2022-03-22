@@ -36,4 +36,3 @@ def make_server_polling(url, dvmn_token, chat_id, bot, logger, timestamp):
             if not connection_error_counter % 10:
                 time.sleep(60)
                 connection_error_counter = 0
-
