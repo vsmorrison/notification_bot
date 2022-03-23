@@ -17,7 +17,7 @@ def main():
     bot_logger.setLevel(logging.DEBUG)
     bot_logger.addHandler(TelegramBotHandler(bot, tg_chat_id))
     long_polling.make_server_polling(
-        url, dvmn_token, tg_chat_id, bot, bot_logger, timestamp=None)
+        url, dvmn_token, tg_chat_id, bot, timestamp=None)
 
 
 if __name__ == "__main__":
