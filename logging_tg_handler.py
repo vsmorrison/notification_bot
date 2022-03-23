@@ -13,10 +13,3 @@ class TelegramBotHandler(logging.Handler):
         self.tg_logging_bot.send_message(
             chat_id=self.tg_chat_id, text=log_entry
         )
-
-
-def make_bot_logger(bot, chat_id):
-    bot_logger = logging.getLogger('bot_logger')
-    bot_logger.setLevel(logging.DEBUG)
-    bot_logger.addHandler(TelegramBotHandler(bot, chat_id))
-    return bot_logger
