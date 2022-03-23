@@ -2,7 +2,8 @@ import os
 from dotenv import load_dotenv
 import long_polling
 import telegram
-import logging_tools
+import logging
+from logging_tg_handler import TelegramBotHandler
 
 
 def main():
@@ -12,9 +13,11 @@ def main():
     tg_chat_id = os.getenv('TG_CHAT_ID')
     url = 'https://dvmn.org/api/long_polling/'
     bot = telegram.Bot(token=tg_token)
-    logger = logging_tools.make_bot_logger(bot, tg_chat_id)
+    bot_logger = logging.getLogger('bot_logger')
+    bot_logger.setLevel(logging.DEBUG)
+    bot_logger.addHandler(TelegramBotHandler(bot, tg_chat_id))
     long_polling.make_server_polling(
-        url, dvmn_token, tg_chat_id, bot, logger, timestamp=None)
+        url, dvmn_token, tg_chat_id, bot, bot_logger, timestamp=None)
 
 
 if __name__ == "__main__":
